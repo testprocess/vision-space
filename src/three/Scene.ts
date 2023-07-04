@@ -11,6 +11,9 @@ class Scene {
     constructor() {
 
         this.init()
+
+        window.addEventListener('webcamEvent', this.handleWebcamEvent.bind(this));
+
     }
 
     async init() {
@@ -22,8 +25,8 @@ class Scene {
     
         
         this.camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 1, 100 );
-        this.camera.position.set( 0, 20, 10 );
-        this.camera.rotation.z = 90
+        this.camera.position.set( 0, 2, 4 );
+        this.camera.rotation.set( 0, 90, 0 )
 
         this.scene.add(this.camera);
     
@@ -86,6 +89,34 @@ class Scene {
         requestAnimationFrame( this.animate.bind(this) );
 
         this.renderer.render( this.scene, this.camera );
+    }
+
+    // Note: 테스트
+    moveCamera({ x, y }: { x: number, y: number}) {
+        const strength = 20
+        this.camera.position.set( 0 + (x/strength), 10, 30 + (y/strength) );
+    }
+
+
+    handleWebcamEvent(e: any) {
+        const webcam = {
+            width: 640,
+            height: 480
+        }
+
+        const face = {
+            x: e.detail.boundingBox.originX + (e.detail.boundingBox.width / 2),
+            y: e.detail.boundingBox.originY + (e.detail.boundingBox.height / 2)
+        }
+
+        const faceRelative = {
+            x: face.x - webcam.width / 2,
+            y: face.y - webcam.height / 2
+
+        }
+
+        this.moveCamera(faceRelative)
+        console.log(faceRelative)
     }
 
     

@@ -1,11 +1,12 @@
 import React from 'react';
 import './App.css'
+import { Video } from "./components/Video"
 
 
 const App: any = () => {
     return (
         <div>
-            <b>sdgsdg</b>
+            <Video></Video>
 
 
         </div>
