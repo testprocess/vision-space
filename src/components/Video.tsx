@@ -55,35 +55,20 @@ function Video() {
     const predictWebcam = () => {
         let startTimeMs = performance.now();
 
-        // Detect faces using detectForVideo
         if (webcamRef.current.currentTime !== lastVideoTime) {
             lastVideoTime = webcamRef.current.currentTime;
             const detections = faceDetector.detectForVideo(webcamRef.current, startTimeMs).detections;
             
-            //console.log(detections);
             try {
                 dispatchWebcamEvent(detections[0].boundingBox)
 
             } catch (error) {}
         }
       
-        // Call this function again to keep predicting when the browser is ready
         window.requestAnimationFrame(predictWebcam);
     }
 
 
-//     height
-// : 
-// 220
-// originX
-// : 
-// 204
-// originY
-// : 
-// 196
-// width
-// : 
-// 220
     const dispatchWebcamEvent = (boundingBox: any) => {
         const webcamEvent = new CustomEvent('webcamEvent', {
             detail: {
