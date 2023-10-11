@@ -80,7 +80,12 @@ class Scene {
 
         }
 
-        this.model.model.rotation.y = -((faceRelative.x) * Math.PI/180)/5
+        if (this.model.isAvailable) {
+            this.model.model.rotation.y = -((faceRelative.x) * Math.PI/180)/5
+            this.model.model.rotation.x = -((faceRelative.y) * Math.PI/180)/5
+
+        }
+
     }
 
 

@@ -1,15 +1,35 @@
 import * as THREE from 'three';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 
 class Model {
     model: any;
     scene: any;
+    isAvailable: boolean;
 
     constructor({ scene }: any) {
-        const model = this.createModel()
+        this.loadModel()
         this.scene = scene
-        this.model = model
-        this.scene.add(this.model)
+        this.isAvailable = false
+        this.model = undefined
+    }
+
+    private loadModel() {
+        const loader = new GLTFLoader();
+
+        loader.load( '/public/models/cup.glb', ( gltf ) => {
+
+            this.scene.add( gltf.scene );
+            this.model = gltf.scene
+            this.scene.add(this.model)
+
+            this.isAvailable = true
+
+        }, undefined, function ( error ) {
+
+            console.error( error );
+
+        } );
     }
 
     private createModel() {
